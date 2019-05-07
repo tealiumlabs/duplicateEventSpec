@@ -1,0 +1,109 @@
+<script type="text/x-handlebars">
+
+<style>
+        .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+            position: relative;
+            min-height: 1px;
+            /* padding-left: 15px; */
+            /* padding-right: 15px; */
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+      
+
+        .space {
+            margin: 2px;
+        }
+    </style>
+
+
+
+<h4>Duplicate a Event Spec</h4>
+<p>(Choose an Event Spec to duplicate, providing a new name for the copied Event Spec)</p>
+<table>
+    <tr><th> Available Specs </th><th> New Spec Name </th></tr>
+    <tr>
+        <td><select id="currentSpecs">
+        </select></td>
+        <td><input id="newSpecName" type="text"></input></td>
+    </tr>
+    <tr></tr>
+</table>
+<div>
+<button id="submit">Submit</button>
+</div>
+
+<br>
+<br>
+<br>
+<h4>Export your current Event Specs</h4>
+<p>(JSON export of your current Event Specs. This export will be used in the import below)</p>
+<div id="fileExport"></div>
+<br>
+<br>
+<br>
+
+<h4>Import JSON formatted Event Specs</h4>
+<p>(For a starting point, use the above export function to get the current Event Specs)</p>
+<input id="fileImport" type="file" accept=".json" />
+
+<!--
+<div>
+    <table id="">
+        <tr><th>Name</th><th>Type</th><th>Required</th></tr>
+
+    </table>
+
+</div>
+-->
+<script type="text/javascript">
+var cs = {{{this.currentSpecs}}};
+var file = {{{this.export}}};
+
+var selectDropDown = document.getElementById("currentSpecs")
+var submit = document.getElementById("submit")
+var fileExport = document.getElementById("fileExport");
+
+cs.forEach((i) => {
+    var e = document.createElement('option')
+    e.value = e.innerText = i;
+    selectDropDown.appendChild(e)
+})
+
+submit.addEventListener('click', (e) => {
+    var a = jQuery( "#currentSpecs option:selected" ).text();
+    var b = jQuery("#newSpecName")[0].value
+    
+    if(b.trim() === "" || !!cs.includes(b.trim())){
+        jQuery("#newSpecName").css('border','1px solid red')
+    }else{
+        console.log("About to invoke function: ", [a,b])
+        tealiumTools.invokeFunction("_addSpec",[a,b])
+    }
+})
+
+var elem = document.createElement("a")
+    elem.href = 'data:application/json;charset=utf-8;' + ',' + encodeURI(JSON.stringify(file))
+    elem.target = "_blank"
+    elem.download = "eventSpecs.json"
+    elem.innerText = "Download Event Specs"
+    fileExport.appendChild(elem)
+
+
+jQuery('#fileImport')[0].addEventListener('change', function(e){
+    var reader = new FileReader();
+    
+    reader.onload = function(a){
+        var f = a.target.result;
+        tealiumTools.invokeFunction("_importDeployerSpecs",[JSON.parse(a.target.result)])
+    }
+    
+    reader.readAsText(this.files[0]);
+})    
+</script>
+
+
+
+
+

@@ -1,0 +1,15 @@
+{
+    "id" : "event_spec_duplicate",
+    "title": "Duplicate a event spec",
+    "icon_url": "https://my.tealiumiq.com/img/login/tealium_login_logo.png",
+    "description" : "",
+    "scripts": {
+        "manTrigger" : {
+            "auto_inject" : true,
+            "template": "https://s3.amazonaws.com/tealium-mlearo/event_spec_duplicate/esd.html",
+            "js":"https://s3.amazonaws.com/tealium-mlearo/event_spec_duplicate/esd.js",
+            "remote_template" : true,
+            "remote_js" : true
+        }
+    }
+}
