@@ -6,8 +6,8 @@
     "scripts": {
         "manTrigger" : {
             "auto_inject" : true,
-            "template": "https://s3.amazonaws.com/tealium-mlearo/event_spec_duplicate/esd.html",
-            "js":"https://s3.amazonaws.com/tealium-mlearo/event_spec_duplicate/esd.js",
+            "template": "https://raw.githubusercontent.com/tealiumlabs/duplicateEventSpec/master/esd.html",
+            "js":"https://raw.githubusercontent.com/tealiumlabs/duplicateEventSpec/master/esd.js",
             "remote_template" : true,
             "remote_js" : true
         }
